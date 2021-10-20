@@ -77,4 +77,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(FamilyDetail::class);
     }
+
+    public function getAgeAttribute() {
+        if(isset($this->birth_date)) {
+            return \Carbon\Carbon::parse($this->birth_date)->diff(\Carbon\Carbon::now())->y;
+        }
+    }
 }

@@ -197,10 +197,10 @@ class UserController extends Controller
                     $q->orWhere('contact_details.p_city', 'LIKE', "%" .$request->place_name . "%");
                 }
                 if(isset($request->degree) && !empty($request->degree)){
-                    $q->orWhere('contact_details.p_city', 'LIKE', "%" .$request->degree . "%");
+                    //$q->orWhere('contact_details.p_city', 'LIKE', "%" .$request->degree . "%");
                 }
                 if(isset($request->age) && !empty($request->age)){
-                    $q->orWhere('contact_details.p_city', 'LIKE', "%" .$request->age . "%");
+                    $q->orWhere(DB::raw("timestampdiff (year, birth_date, curdate())"), 'LIKE', "%" .$request->age . "%");
                 }
             });
             $user = $user->get();

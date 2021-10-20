@@ -33,6 +33,7 @@ class UserResource extends JsonResource
             "father_name" => $this->father_name,
             "professional" => $this->professional,
             "birth_date" => $this->birth_date,
+            "age" => isset($this->age) ? $this->age : 0,
             'email' => $this->email,
             'mobile_no' => $this->mobile_no,
             "role" => $this->role,
