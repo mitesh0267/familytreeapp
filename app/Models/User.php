@@ -32,6 +32,9 @@ class User extends Authenticatable implements JWTSubject
         'role',
         'is_active',
         'transaction_id',
+        'height',
+        'physical_disability',
+        'boold_group'
         ];
 
     /**
@@ -69,6 +72,8 @@ class User extends Authenticatable implements JWTSubject
             'email' => ['required', 'email','unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'password_confirmation' => ['required','same:password'],
+            'height' => ['nullable', 'numeric'],
+            'physical_disability' => ['nullable', 'boolean']
         ];
 
     }
