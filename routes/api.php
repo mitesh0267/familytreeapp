@@ -30,4 +30,5 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::put('update-user/{id}', 'Api\UserController@updateUser');
     Route::delete('delete-user/{id}', 'Api\UserController@deleteUser');
     Route::get('getrealtions', 'Api\UserController@getRealtions');
+    Route::get('getbooldgroup', 'Api\UserController@getBooldGroup');
 });

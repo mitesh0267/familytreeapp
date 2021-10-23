@@ -59,6 +59,9 @@ class UserController extends Controller
             "role" => isset($request->role) ? $request->role : "user",
             "is_active" =>  isset($request->is_active) ? $request->is_active : "1",
             "transaction_id" =>  isset($request->transaction_id) ? $request->transaction_id : null,
+            "height" =>  isset($request->height) ? $request->height : null,
+            "physical_disability" =>  isset($request->physical_disability) ? $request->physical_disability : false,
+            "boold_group" =>  isset($request->boold_group) ? $request->boold_group : null,
         ]);
 
         //contact Details
@@ -197,10 +200,10 @@ class UserController extends Controller
                     $q->orWhere('contact_details.p_city', 'LIKE', "%" .$request->place_name . "%");
                 }
                 if(isset($request->degree) && !empty($request->degree)){
-                    $q->orWhere('contact_details.p_city', 'LIKE', "%" .$request->degree . "%");
+                    //$q->orWhere('contact_details.p_city', 'LIKE', "%" .$request->degree . "%");
                 }
                 if(isset($request->age) && !empty($request->age)){
-                    $q->orWhere('contact_details.p_city', 'LIKE', "%" .$request->age . "%");
+                    $q->orWhere(DB::raw("timestampdiff (year, birth_date, curdate())"), 'LIKE', "%" .$request->age . "%");
                 }
             });
             $user = $user->get();
@@ -358,7 +361,6 @@ class UserController extends Controller
 
     public function getRealtions()
     {
-        
         $realtion_arr  = ["father" => "Father",
                    "mother" => "Mother",
                    "son" => 'Son',
@@ -379,4 +381,17 @@ class UserController extends Controller
         return $this->sendResponse($realtion_arr);
     }
 
+    public function getBooldGroup()
+    {
+        $booldgroup_arr  = [
+                   "A+" => "A+",
+                   "A-" => "A-",
+                   "B+" => 'B+',
+                   "B-" => "B-",
+                   "O+" => "O+",
+                   "O-" => 'O-',
+                   "AB+" => "AB+",
+                   "AB-" => "AB-"];
+        return $this->sendResponse($booldgroup_arr);
+    }
 }
