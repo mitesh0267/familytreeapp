@@ -34,7 +34,7 @@ class User extends Authenticatable implements JWTSubject
         'transaction_id',
         'height',
         'physical_disability',
-        'boold_group'
+        'blood_group'
         ];
 
     /**
