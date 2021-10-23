@@ -61,7 +61,7 @@ class UserController extends Controller
             "transaction_id" =>  isset($request->transaction_id) ? $request->transaction_id : null,
             "height" =>  isset($request->height) ? $request->height : null,
             "physical_disability" =>  isset($request->physical_disability) ? $request->physical_disability : false,
-            "boold_group" =>  isset($request->boold_group) ? $request->boold_group : null,
+            "blood_group" =>  isset($request->blood_group) ? $request->blood_group : null,
         ]);
 
         //contact Details
@@ -137,14 +137,14 @@ class UserController extends Controller
                 "n_city" => $request->p_city,
                 "n_pincode" => $request->p_pincode ?? "",
                 "n_state" => $request->p_state ?? "",
-                "n_contrary" => $request->p_contrary];
+                "n_country" => $request->p_country];
         } else {
             $nativeAddress=[
                 "n_address" => $request->n_address,
                 "n_city" => $request->n_city,
                 "n_pincode" => $request->n_pincode ?? "",
                 "n_state" => $request->n_state ?? "",
-                "n_contrary" => $request->n_contrary];
+                "n_country" => $request->n_country];
         }
     
         $contactDetailsReq = array_merge([
@@ -154,7 +154,7 @@ class UserController extends Controller
             "p_city" => $request->p_city,
             "p_pincode" => $request->p_pincode ?? "",
             "p_state" => $request->p_state ?? "",
-            "p_contrary" => $request->p_contrary,            
+            "p_country" => $request->p_country,            
         ],$nativeAddress);
         return $contactDetailsReq;
 
@@ -174,12 +174,12 @@ class UserController extends Controller
             "contact_details.p_city",
             "contact_details.p_pincode",
             "contact_details.p_state",
-            "contact_details.p_contrary",
+            "contact_details.p_country",
             "contact_details.n_address",      
             "contact_details.n_city",
             "contact_details.n_pincode",
             "contact_details.n_state",
-            "contact_details.n_contrary",
+            "contact_details.n_country",
             "contact_details.both_address_same",
             "other_details.id as other_details_id",
             "other_details.user_id as other_details_user_id",
@@ -242,12 +242,12 @@ class UserController extends Controller
         "contact_details.p_city",
         "contact_details.p_pincode",
         "contact_details.p_state",
-        "contact_details.p_contrary",
+        "contact_details.p_country",
         "contact_details.n_address",      
         "contact_details.n_city",
         "contact_details.n_pincode",
         "contact_details.n_state",
-        "contact_details.n_contrary",
+        "contact_details.n_country",
         "contact_details.both_address_same",
         "other_details.id as other_details_id",
         "other_details.user_id as other_details_user_id",
@@ -278,7 +278,7 @@ class UserController extends Controller
                     $request['n_city'] = $request->p_city;
                     $request['n_pincode'] = $request->p_pincode;
                     $request['n_state'] = $request->p_state;
-                    $request['n_contrary'] = $request->p_contrary;
+                    $request['n_country'] = $request->p_country;
                 } 
                 $contactDetail->update($request->all());
             } 
@@ -359,9 +359,9 @@ class UserController extends Controller
         return $this->sendResponse($user);
     }
 
-    public function getRealtions()
+    public function getRelations()
     {
-        $realtion_arr  = ["father" => "Father",
+        $relation_arr  = ["father" => "Father",
                    "mother" => "Mother",
                    "son" => 'Son',
                    "daughter" => "Daughter",
@@ -378,12 +378,12 @@ class UserController extends Controller
                    "nephew" => 'Nephew',
                    "niece" => "Niece",
                    "cousin" => "Cousin"];
-        return $this->sendResponse($realtion_arr);
+        return $this->sendResponse($relation_arr);
     }
 
-    public function getBooldGroup()
+    public function getBloodGroup()
     {
-        $booldgroup_arr  = [
+        $bloodgroup_arr  = [
                    "A+" => "A+",
                    "A-" => "A-",
                    "B+" => 'B+',
@@ -392,6 +392,6 @@ class UserController extends Controller
                    "O-" => 'O-',
                    "AB+" => "AB+",
                    "AB-" => "AB-"];
-        return $this->sendResponse($booldgroup_arr);
+        return $this->sendResponse($bloodgroup_arr);
     }
 }

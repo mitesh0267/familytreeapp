@@ -17,12 +17,12 @@ class ContactDetail extends Model
        'p_city',
        'p_pincode',
        'p_state',
-       'p_contrary',
+       'p_country',
        'n_address',
        'n_city',
        'n_pincode',
        'n_state',
-       'n_contrary',
+       'n_country',
        'both_address_same',
     ];
 
@@ -33,7 +33,7 @@ class ContactDetail extends Model
             'p_city' => ['required'],
             'p_pincode' =>  ['required'],
             'p_state' => ['required'],
-            'p_contrary' => ['required'],
+            'p_country' => ['required'],
             'both_address_same' => ['nullable', 'boolean']
            
         ];
@@ -47,7 +47,7 @@ class ContactDetail extends Model
             'p_city.required' => 'The present city field is required.',
             'p_pincode.required' => 'The present pincode field is required.',
             'p_state.required' => 'The present state field is required.',
-            'p_contrary.required' => 'The present contrary field is required.',
+            'p_country.required' => 'The present contrary field is required.',
             'both_address_same.boolean' => 'Same as present address field must be true or false',
         ];
     }
