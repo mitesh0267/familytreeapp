@@ -29,7 +29,7 @@ class FamilyDetail extends Model
         'm_degree',
         'm_college_name',
      ];
-     protected $appends = ['age'];
+     protected $appends = ['age','profile_pic_url'];
     public static function rules()
     {
         return [
@@ -58,17 +58,16 @@ class FamilyDetail extends Model
         ];
     }
 
-    public function getProfilePicAttribute($value)
+    public function getProfilePicUrlAttribute($value)
     {     
-      $url = null;
-        if (isset($value)) {
-            $profilePicture = $value;
-            if ($profilePicture) {
-                $path = config('filesystems.upload_profile_picture_path');       
-                $disk = Storage::disk('public');               
-                $url = $disk->url($path . $profilePicture);
-                //$url = storage_path('app/').$path . $profilePicture;
-            } 
+        $path = config('filesystems.upload_profile_picture_path');       
+        $disk = Storage::disk('user_profile');   
+        $url = null;
+        if (isset($this->profile_pic)) {
+            $profilePicture = $this->profile_pic;           
+            $url = $disk->url($path . $profilePicture); 
+        } else {
+            $url = $disk->url($path .'default.png');
         }
        return $url;
     }

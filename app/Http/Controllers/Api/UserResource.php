@@ -40,6 +40,10 @@ class UserResource extends JsonResource
             "height" => $this->height,
             "physical_disability" => $this->physical_disability,
             "blood_group" => $this->blood_group,
+            "father_profile_pic" => $this->father_profile_pic,
+            "father_profile_pic_url" => $this->father_profile_pic_url,
+            "user_profile_pic" => $this->user_profile_pic,
+            "user_profile_pic_url" => $this->user_profile_pic_url,
             'is_active' => $this->is_active,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
@@ -62,7 +66,8 @@ class UserResource extends JsonResource
             'native_place_description' => $this->native_place_description,
             "samaj_vadi_name" => $this->samaj_vadi_name,
             'handled_by' => $this->handled_by,
-            'handled_profile_pic' => $obj->getHandledProfilePicPath($this->handled_profile_pic),
+            'handled_profile_pic' => $this->handled_profile_pic,
+            'handled_profile_pic_url' => $obj->getHandledProfilePicUrlAttribute($this->handled_profile_pic),
             'family_detail' => $this->FamilyDetail,
             'no_of_son_daughter' => $no_of_son_daughter
         ];

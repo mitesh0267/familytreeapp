@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\FamilyDetail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Storage;
+
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -34,7 +36,10 @@ class User extends Authenticatable implements JWTSubject
         'transaction_id',
         'height',
         'physical_disability',
-        'blood_group'
+        'blood_group',
+        'father_profile_pic',
+        'user_profile_pic',
+        'edit_to_access',
         ];
 
     /**
@@ -54,6 +59,8 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected $appends = ['user_profile_pic_url','father_profile_pic_url'];
+
 
     public function getJWTIdentifier()
     {
@@ -87,5 +94,32 @@ class User extends Authenticatable implements JWTSubject
         if(isset($this->birth_date)) {
             return \Carbon\Carbon::parse($this->birth_date)->diff(\Carbon\Carbon::now())->y;
         }
+    }
+    
+    public function getFatherProfilePicUrlAttribute($value)
+    {     
+      $url = null;
+      $path = config('filesystems.upload_profile_picture_path');       
+      $disk = Storage::disk('user_profile');   
+        if (isset($this->father_profile_pic)) {
+            $profilePicture = $this->father_profile_pic;             
+            $url = $disk->url($path . $profilePicture);
+        }else {
+            $url = $disk->url($path .'default.png');
+        }
+       return $url;
+    }
+    public function getUserProfilePicUrlAttribute($value)
+    {     
+      $url = null;
+      $path = config('filesystems.upload_profile_picture_path');       
+      $disk = Storage::disk('user_profile');   
+        if (isset($this->user_profile_pic)) {
+            $profilePicture = $this->user_profile_pic;
+            $url = $disk->url($path . $profilePicture);
+        }else {
+            $url = $disk->url($path .'default.png');
+        }
+       return $url;
     }
 }

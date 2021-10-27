@@ -31,4 +31,5 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::delete('delete-user/{id}', 'Api\UserController@deleteUser');
     Route::get('getrelations', 'Api\UserController@getRelations');
     Route::get('getbloodgroup', 'Api\UserController@getBloodGroup');
+    Route::put('edit-access/{id}', 'Api\UserController@editAccess');
 });
