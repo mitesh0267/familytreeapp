@@ -104,6 +104,9 @@ class UserController extends Controller
                 "b_college_name" => isset($b_college_name) ? $b_college_name : null, 
                 "m_degree" => isset($familyData['m_degree']) ? $familyData['m_degree'] : false , 
                 "m_college_name" =>isset($m_college_name) ? $m_college_name : null,
+                "height" =>  isset($familyData['height']) ? $familyData['height'] : null,
+                "physical_disability" =>  isset($familyData['physical_disability']) ? $familyData['physical_disability'] : false,
+                "blood_group" =>  isset($familyData['blood_group']) ? $familyData['blood_group'] : null,
             ],$schoolPayload);
             $family_Details[] = FamilyDetail::create($familyDetailsReq); 
         }
@@ -222,14 +225,15 @@ class UserController extends Controller
             return response()->json(["status" => "failed",'code' => 422, "message" => $validator->messages()->first()],422);
         }
         $uploadedFile = $request->file('picture');
-        $filename = time() . "." .$uploadedFile->getClientOriginalName();                   
+        $filename = time() . "." .$uploadedFile->getClientOriginalName();      
+    
         //get uploaded profile picture path
         $path = config('filesystems.upload_profile_picture_path');       
-        $disk = Storage::disk('local');
+        $disk = Storage::disk('user_profile');
         // create a file
         $disk->putFileAs($path, $uploadedFile, $filename);
-           
-        return $this->sendResponse($filename);
+        $url = $disk->url($path.'/'.$filename);       
+        return $this->sendResponse(['filename'=> $filename,'profile_pic_path' => $url]);
     }
 
     public function getUser(Request $request, $id)
