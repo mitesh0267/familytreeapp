@@ -18,6 +18,9 @@ class FamilyDetail extends Model
         'birth_date',
         'profile_pic',
         'married_status',
+        'height',
+        'physical_disability',
+        'blood_group',
         'school_name_1',
         'school_name_2',
         'both_school_same',
@@ -63,8 +66,8 @@ class FamilyDetail extends Model
             if ($profilePicture) {
                 $path = config('filesystems.upload_profile_picture_path');       
                 $disk = Storage::disk('public');               
-                //$url = $disk->url("app".$path . $profilePicture);
-                $url = storage_path('app/').$path . $profilePicture;
+                $url = $disk->url($path . $profilePicture);
+                //$url = storage_path('app/').$path . $profilePicture;
             } 
         }
        return $url;

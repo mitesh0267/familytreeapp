@@ -28,9 +28,9 @@ class OtherDetail extends Model
              $profilePicture = $value;
              if ($profilePicture) {
                  $path = config('filesystems.upload_profile_picture_path');       
-                 $disk = Storage::disk('public');               
-                // $url = $disk->url("app".$path . $profilePicture);
-                 $url = storage_path('app/').$path . $profilePicture;
+                 $disk = Storage::disk('user_profile');               
+                 $url = $disk->url($path . $profilePicture);
+                 //$url = storage_path('app/').$path . $profilePicture;
              } 
          }
         return $url;

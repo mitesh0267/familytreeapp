@@ -54,6 +54,12 @@ return [
             'url' => 'http://familytree.com'.'/storage',
             'visibility' => 'public',
         ],
+        'user_profile' => [
+            'driver' => 'local',
+            'root' => public_path(''),
+            'url' => env('APP_URL'),
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',
