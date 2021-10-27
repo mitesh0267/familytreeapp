@@ -62,6 +62,8 @@ class UserController extends Controller
             "height" =>  isset($request->height) ? $request->height : null,
             "physical_disability" =>  isset($request->physical_disability) ? $request->physical_disability : false,
             "blood_group" =>  isset($request->blood_group) ? $request->blood_group : null,
+            "father_profile_pic" =>  isset($request->father_profile_pic) ? $request->father_profile_pic : null,
+            "user_profile_pic" =>  isset($request->user_profile_pic) ? $request->user_profile_pic : null,
         ]);
 
         //contact Details
@@ -171,7 +173,7 @@ class UserController extends Controller
         if ($authUser->role !== "user") {
             $user = User::select("users.*",
             "contact_details.id as contact_details_id",
-            "contact_details.user_id as contact_details_user_id ",
+            "contact_details.user_id as contact_details_user_id",
             "contact_details.mobile_no",
             "contact_details.p_address",
             "contact_details.p_city",
@@ -240,7 +242,7 @@ class UserController extends Controller
     {
         $user = User::select("users.*",
         "contact_details.id as contact_details_id",
-        "contact_details.user_id as contact_details_user_id ",
+        "contact_details.user_id as contact_details_user_id",
         "contact_details.mobile_no",
         "contact_details.p_address",
         "contact_details.p_city",
@@ -259,7 +261,7 @@ class UserController extends Controller
         "other_details.native_place_description",
         "other_details.samaj_vadi_name",
         "other_details.handled_by",
-        "other_details.handled_profile_pic",)
+        "other_details.handled_profile_pic")
         ->leftjoin('contact_details', 'contact_details.user_id', '=', 'users.id')
         ->leftjoin('other_details', 'other_details.user_id', '=', 'users.id')
         ->with('familyDetail')
@@ -273,6 +275,10 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if($user) {
+            $is_editable = $user->edit_to_access;
+            if(!$is_editable) {
+                return response()->json(["status" => "failed",'code' => 403, "message" => "You don't have edit permission."],403);
+            }
             $user = $user->update($request->all());
             $contactDetail = ContactDetail::where(['user_id' => $id,'id'=> $request->contact_details_id])->first();
             if (isset($contactDetail) && !empty($contactDetail)) {
@@ -397,5 +403,21 @@ class UserController extends Controller
                    "AB+" => "AB+",
                    "AB-" => "AB-"];
         return $this->sendResponse($bloodgroup_arr);
+    }
+    public function editAccess(Request $request,$id)
+    {
+        $user = User::find($id);
+        $validator = Validator::make($request->all(), [
+            'is_editable' => 'required|boolean'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(["status" => "failed",'code' => 422, "message" => $validator->messages()->first()],422);
+        }
+        if($user) {
+            $user = $user->update(['edit_to_access' => $request->is_editable]);
+        } else {
+            return response()->json(["status" => "failed",'code' => 404, "message" => 'User not found'],404);
+        }
+        return $this->sendResponse("Updated Successfully");
     }
 }

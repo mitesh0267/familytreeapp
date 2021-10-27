@@ -20,19 +20,20 @@ class OtherDetail extends Model
         'handled_by',
         'handled_profile_pic'
      ];
+     protected $appends = ['HandledProfilePicUrl'];
 
-     public function getHandledProfilePicPath($value)
+     public function getHandledProfilePicUrlAttribute($value)
      {     
+        $path = config('filesystems.upload_profile_picture_path');       
+        $disk = Storage::disk('user_profile');  
         $url = null;
+        $data = isset($value) ? $value : isset($this->handled_profile_pic) ? $this->handled_profile_pic : "";
         if (isset($value)) {
-             $profilePicture = $value;
-             if ($profilePicture) {
-                 $path = config('filesystems.upload_profile_picture_path');       
-                 $disk = Storage::disk('user_profile');               
-                 $url = $disk->url($path . $profilePicture);
-                 //$url = storage_path('app/').$path . $profilePicture;
-             } 
-         }
+             $profilePicture = $value;            
+             $url = $disk->url($path . $profilePicture);
+        } else {
+            $url = $disk->url($path .'default.png');
+        }
         return $url;
      }
 }
