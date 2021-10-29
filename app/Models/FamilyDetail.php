@@ -25,11 +25,31 @@ class FamilyDetail extends Model
         'school_name_2',
         'both_school_same',
         'b_degree',
+        'b_degree_name',
         'b_college_name',
         'm_degree',
+        'm_degree_name',
         'm_college_name',
      ];
-     protected $appends = ['age','profile_pic_url'];
+    
+    public static $relation_data = [
+        'Son',
+        'Daughter',
+        'Father',
+        'Mother',
+        'Brother',
+        'Sister',
+    ];
+
+    public static $married_status = [
+        'Single',
+        'Married',
+        'Widowed',
+        'Divorced',
+    ];
+
+    protected $appends = ['age','profile_pic_url'];
+    
     public static function rules()
     {
         return [
@@ -37,7 +57,7 @@ class FamilyDetail extends Model
             'family_details.*.name' => ['required','string'],
             'family_details.*.relation' => ['required'],
             'family_details.*.birth_date' => ['required', 'date','date_format:Y-m-d'],
-            'family_details.*.married_status' => ['required', 'string','in:married,unmarried']
+            'family_details.*.married_status' => ['required', 'string']
         ];
 
     }

@@ -40,7 +40,7 @@ class User extends Authenticatable implements JWTSubject
         'father_profile_pic',
         'user_profile_pic',
         'edit_to_access',
-        ];
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -61,6 +61,23 @@ class User extends Authenticatable implements JWTSubject
     ];
     protected $appends = ['user_profile_pic_url','father_profile_pic_url'];
 
+
+    public static $professionals = [
+        'Bussiness',
+        'Job',
+        'Goverment Job',
+    ];
+
+    public static $blood_groups = [
+        'A+',
+        'A-',
+        'B+',
+        'B-',
+        'AB+',
+        'AB-',
+        'O+',
+        'O-',
+    ];
 
     public function getJWTIdentifier()
     {
@@ -121,5 +138,20 @@ class User extends Authenticatable implements JWTSubject
             $url = $disk->url($path .'default.png');
         }
        return $url;
+    }
+
+    public function family_details()
+    {
+        return $this->hasMany(FamilyDetail::class);
+    }
+
+    public function other_detail()
+    {
+        return $this->hasOne(OtherDetail::class);
+    }
+
+    public function contact_detail()
+    {
+        return $this->hasOne(ContactDetail::class);
     }
 }

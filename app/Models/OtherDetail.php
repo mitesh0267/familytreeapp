@@ -27,7 +27,7 @@ class OtherDetail extends Model
         $path = config('filesystems.upload_profile_picture_path');       
         $disk = Storage::disk('user_profile');  
         $url = null;
-        $data = isset($value) ? $value : isset($this->handled_profile_pic) ? $this->handled_profile_pic : "";
+        $data = isset($value) ? $value : (isset($this->handled_profile_pic) ? $this->handled_profile_pic : "");
         if (isset($value)) {
              $profilePicture = $value;            
              $url = $disk->url($path . $profilePicture);
